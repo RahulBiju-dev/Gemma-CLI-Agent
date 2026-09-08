@@ -93,6 +93,18 @@ function resolveBackendCommand() {
   };
 }
 
+function resolveAppIcon() {
+  const candidates = [
+    '/home/rahulb/Documents/Applications/Selene/icon.png',
+    path.join(__dirname, '../build/icon.png'),
+    path.join(__dirname, '../agent/static/favicon.png'),
+  ];
+  for (const candidate of candidates) {
+    if (fs.existsSync(candidate)) return candidate;
+  }
+  return undefined;
+}
+
 function createWindow(port) {
   if (mainWindow && !mainWindow.isDestroyed()) {
     mainWindow.focus();
@@ -113,7 +125,7 @@ function createWindow(port) {
       contextIsolation: true,
       sandbox: true,
     },
-    icon: path.join(__dirname, '../agent/static/favicon.png'),
+    icon: resolveAppIcon(),
   });
   mainWindow.setMenuBarVisibility(false);
   mainWindow.once('ready-to-show', () => mainWindow && mainWindow.show());
